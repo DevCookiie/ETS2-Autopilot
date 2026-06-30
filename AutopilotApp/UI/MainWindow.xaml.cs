@@ -224,9 +224,13 @@ public partial class MainWindow : Window
 
     private void ActivateButton_Click(object s, RoutedEventArgs e) => ToggleAutopilot();
     private void MaxSpeedSlider_ValueChanged(object s, RoutedPropertyChangedEventArgs<double> e)
-        => MaxSpeedLabel.Text = ((int)e.NewValue).ToString();
+    {
+        if (MaxSpeedLabel != null) MaxSpeedLabel.Text = ((int)e.NewValue).ToString();
+    }
     private void TurnDistSlider_ValueChanged(object s, RoutedPropertyChangedEventArgs<double> e)
-        => TurnDistLabel.Text = ((int)e.NewValue).ToString();
+    {
+        if (TurnDistLabel != null) TurnDistLabel.Text = ((int)e.NewValue).ToString();
+    }
 
     protected override void OnClosed(EventArgs e)
     {
