@@ -1,0 +1,15 @@
+SiiNunit
+{
+mod_package : .package_name {
+ package_version: "1.0.0"
+ display_name: "ETS2 Autopilot"
+ author: "YourNameHere"
+ categories[]: "tools"
+
+ description: "Automatisk kørsel til ETS2! Lastbilen styrer selv efter GPS-ruten.\n\nFunktioner:\n- Lane keeping (holder sig i kørebanen)\n- Følger GPS-sving automatisk\n- Fartregulering efter hastighedsgrænse\n- Nem on/off med F5-tasten\n\nInstallation:\nSe README på GitHub for at installere det rigtige program."
+
+ compatible_versions[]: "1.50.*"
+ compatible_versions[]: "1.51.*"
+ compatible_versions[]: "1.52.*"
+}
+}

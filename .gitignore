@@ -1,0 +1,8 @@
+bin/
+obj/
+dist/
+plugin/build/
+*.user
+.vs/
+*.suo
+*.pdb

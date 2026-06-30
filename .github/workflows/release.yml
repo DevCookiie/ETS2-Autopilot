@@ -1,0 +1,72 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'   # Trigger on version tags like v1.0.0
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # --- Build C++ Plugin ---
+      - name: Setup MSVC
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Configure CMake
+        run: cmake -S plugin -B plugin/build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build C++ Plugin
+        run: cmake --build plugin/build --config Release
+
+      # --- Build C# App ---
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish C# App
+        run: |
+          dotnet publish AutopilotApp/AutopilotApp.csproj `
+            -c Release -r win-x64 `
+            --self-contained true `
+            -p:PublishSingleFile=true `
+            -o release_output
+
+      # --- Package everything ---
+      - name: Package Release
+        run: |
+          New-Item -ItemType Directory -Force release_package | Out-Null
+          New-Item -ItemType Directory -Force release_package\ETS2_Plugin | Out-Null
+
+          # C# App
+          Copy-Item release_output\ETS2Autopilot.exe release_package\
+
+          # C++ Plugin DLL
+          Copy-Item plugin\build\Release\ets2autopilot.dll release_package\ETS2_Plugin\
+
+          # Install script
+          Copy-Item install.ps1 release_package\
+
+          # Readme
+          Copy-Item README.md release_package\
+
+          Compress-Archive -Path release_package\* -DestinationPath ETS2Autopilot-${{ github.ref_name }}.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ETS2Autopilot-${{ github.ref_name }}.zip
+          generate_release_notes: true
+          body: |
+            ## Installation
+            1. Download `ETS2Autopilot-${{ github.ref_name }}.zip`
+            2. Højreklik → Udtræk alle
+            3. Kør `install.ps1` som administrator (højreklik → Kør med PowerShell)
+            4. Start ETS2, konfigurér vJoy som controller
+            5. Åbn `ETS2Autopilot.exe` og tryk F5 i spillet
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
