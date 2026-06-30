@@ -1,6 +1,6 @@
 SiiNunit
 {
-mod_package : .package_name {
+mod_package : .ets2_autopilot {
  package_version: "1.0.0"
  display_name: "ETS2 Autopilot"
  author: "YourNameHere"
