@@ -72,6 +72,11 @@ ETS2 Workshop understøtter ikke executables (.exe) direkte, så selve appen dow
 → Kør `ETS2Autopilot.exe` som administrator
 → Reinstaller vJoy driver
 
+## Support
+
+Join our Discord for help, bug reports and updates:
+**https://discord.gg/eKqHFe6VSV**
+
 ## Licens
 
 MIT — brug og modificér frit.
