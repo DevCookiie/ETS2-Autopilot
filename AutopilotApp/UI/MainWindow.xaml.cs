@@ -110,6 +110,58 @@ public partial class MainWindow : Window
         DiagVjoyResult.Foreground = new SolidColorBrush(Color.FromRgb(240, 165, 0));
     }
 
+    private void VjoyTestThrottleButton_Click(object s, RoutedEventArgs e)
+    {
+        if (!_vjoy.IsAvailable)
+        {
+            DiagVjoyResult.Text       = "vJoy ikke tilgængeligt - installer driver og kør som administrator";
+            DiagVjoyResult.Foreground = new SolidColorBrush(Color.FromRgb(220, 80, 80));
+            return;
+        }
+
+        _ = Task.Run(async () =>
+        {
+            _vjoy.Send(0f, 1f, 0f);
+            await Task.Delay(600);
+            _vjoy.Send(0f, 0f, 0f);
+
+            Dispatcher.Invoke(() =>
+            {
+                DiagVjoyResult.Text       = "Gas-test sendt! Reagerede speederen i ETS2?";
+                DiagVjoyResult.Foreground = new SolidColorBrush(Color.FromRgb(0, 200, 100));
+            });
+        });
+
+        DiagVjoyResult.Text       = "Sender gas-test...";
+        DiagVjoyResult.Foreground = new SolidColorBrush(Color.FromRgb(240, 165, 0));
+    }
+
+    private void VjoyTestBrakeButton_Click(object s, RoutedEventArgs e)
+    {
+        if (!_vjoy.IsAvailable)
+        {
+            DiagVjoyResult.Text       = "vJoy ikke tilgængeligt - installer driver og kør som administrator";
+            DiagVjoyResult.Foreground = new SolidColorBrush(Color.FromRgb(220, 80, 80));
+            return;
+        }
+
+        _ = Task.Run(async () =>
+        {
+            _vjoy.Send(0f, 0f, 1f);
+            await Task.Delay(600);
+            _vjoy.Send(0f, 0f, 0f);
+
+            Dispatcher.Invoke(() =>
+            {
+                DiagVjoyResult.Text       = "Bremse-test sendt! Reagerede bremsen i ETS2?";
+                DiagVjoyResult.Foreground = new SolidColorBrush(Color.FromRgb(0, 200, 100));
+            });
+        });
+
+        DiagVjoyResult.Text       = "Sender bremse-test...";
+        DiagVjoyResult.Foreground = new SolidColorBrush(Color.FromRgb(240, 165, 0));
+    }
+
     // --- Forbindelseshåndtering ---
 
     private void TryConnect()

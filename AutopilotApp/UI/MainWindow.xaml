@@ -69,12 +69,26 @@
                     <Setter Property="Foreground" Value="#888"/>
                     <Setter Property="BorderBrush" Value="#0f3460"/>
                     <Setter Property="Padding" Value="12,4"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="Background" Value="#0f3460"/>
-                        </Trigger>
-                    </Style.Triggers>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="1,1,1,0" Padding="{TemplateBinding Padding}"
+                                        Margin="0,0,2,0">
+                                    <ContentPresenter x:Name="Content" ContentSource="Header"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       TextElement.Foreground="{TemplateBinding Foreground}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#0f3460"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </TabControl.Resources>
 
@@ -235,11 +249,16 @@
                                 BorderThickness="1" CornerRadius="4" Padding="10">
                             <StackPanel>
                                 <TextBlock Text="VJOY TEST" FontSize="10" Foreground="#666" Margin="0,0,0,8"/>
-                                <TextBlock Text="Tryk knappen for at sende et testsignal til vJoy" Foreground="#888" FontSize="11" Margin="0,0,0,6"/>
+                                <TextBlock Text="Brug disse knapper til at binde vJoy-akser i ETS2's kontrolindstillinger: klik på funktionen i spillet (f.eks. Styring/Speeder/Bremse) og tryk derefter den tilsvarende knap her, mens spillet venter på input."
+                                           Foreground="#888" FontSize="11" Margin="0,0,0,6" TextWrapping="Wrap"/>
                                 <Button x:Name="VjoyTestButton" Content="Send test-styring til vJoy"
-                                        Click="VjoyTestButton_Click" Height="32"/>
+                                        Click="VjoyTestButton_Click" Height="32" Margin="0,0,0,6"/>
+                                <Button x:Name="VjoyTestThrottleButton" Content="Send test-gas til vJoy"
+                                        Click="VjoyTestThrottleButton_Click" Height="32" Margin="0,0,0,6"/>
+                                <Button x:Name="VjoyTestBrakeButton" Content="Send test-bremse til vJoy"
+                                        Click="VjoyTestBrakeButton_Click" Height="32"/>
                                 <TextBlock x:Name="DiagVjoyResult" Text="" Foreground="#888"
-                                           FontSize="11" Margin="0,6,0,0"/>
+                                           FontSize="11" Margin="0,6,0,0" TextWrapping="Wrap"/>
                             </StackPanel>
                         </Border>
 

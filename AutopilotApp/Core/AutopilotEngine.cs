@@ -101,13 +101,13 @@ public class AutopilotEngine
         if (State == AutopilotState.Inactive)
             return new AutopilotOutput { State = State, StatusText = "Autopilot inaktiv" };
 
-        if (tele.GamePaused || tele.SpeedKmh < 0.5f && State == AutopilotState.Active)
+        if (tele.GamePaused)
         {
             State = AutopilotState.Paused;
             return new AutopilotOutput { State = State, StatusText = "Spillet sat på pause" };
         }
 
-        if (State == AutopilotState.Paused && tele.SpeedKmh >= 0.5f)
+        if (State == AutopilotState.Paused)
             State = AutopilotState.Active;
 
         // --- Target speed ---

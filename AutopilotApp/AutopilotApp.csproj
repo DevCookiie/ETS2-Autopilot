@@ -9,8 +9,19 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="SCSSdkClient">
+      <HintPath>lib\SCSSdkClient.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="lib\vJoyInterface.dll" CopyToOutputDirectory="PreserveNewest" Link="vJoyInterface.dll" />
+  </ItemGroup>
 
 </Project>
